@@ -1,0 +1,57 @@
+{
+	"name": "lazuli",
+	"version": "1.0.0",
+	"description": "A node js api framework thingy",
+	"main": "src/lazuli.js",
+	"scripts": {
+		"docs": "jsdoc src -r -c jsdoc.json -R README.md -d docs",
+		"test": "ava"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/tyratox/lazuli.git"
+	},
+	"keywords": ["lazuli"],
+	"author": "Nico Hauser",
+	"contributors": [
+		{
+			"name": "Nico Hauser",
+			"email": "me@tyratox.ch",
+			"url": "https://tyratox.ch"
+		}
+	],
+	"license": "UNLICENSED",
+	"bugs": {
+		"url": "https://github.com/tyratox/lazuli/issues"
+	},
+	"homepage": "https://lazuli.tyratox.ch",
+	"dependencies": {
+		"body-parser": "^1.17.2",
+		"compression": "^1.7.0",
+		"express": "^4.15.4",
+		"express-session": "^1.15.5",
+		"graphql": "^0.11.1",
+		"graphql-relay": "^0.5.2",
+		"helmet": "^3.8.1",
+		"sequelize": "^4.7.5"
+	},
+	"peerDependencies": {
+		"lazuli-config": "tyratox/lazuli-config",
+		"lazuli-filters": "tyratox/lazuli-filters",
+		"lazuli-i18n": "tyratox/lazuli-i18n",
+		"lazuli-logger": "tyratox/lazuli-logger",
+		"lazuli-require": "tyratox/lazuli-require"
+	},
+	"devDependencies": {
+		"ava": "^0.22.0",
+		"babel-core": "^6.26.0",
+		"babel-preset-env": "^1.6.0",
+		"babel-register": "^6.26.0",
+		"jsdoc": "^3.5.4",
+		"lazuli-config": "tyratox/lazuli-config",
+		"lazuli-filters": "tyratox/lazuli-filters",
+		"lazuli-i18n": "tyratox/lazuli-i18n",
+		"lazuli-logger": "tyratox/lazuli-logger",
+		"lazuli-require": "tyratox/lazuli-require"
+	}
+}
