@@ -13,23 +13,7 @@ const { expressServer, httpServer } = initHttpServer(eventEmitter, valueFilter);
  * @type {Lazuli}
  */
 class Lazuli {
-	constructor() {
-		eventEmitter.emit("lazuli.init.before");
-
-		eventEmitter.emit("model.init.before");
-		const models = valueFilter.filterable("sequelize.models", [], sequelize);
-		models.forEach(model => {
-			if (model.associate) {
-				model.associate(models);
-			}
-		});
-		eventEmitter.emit("model.init.after");
-
-		eventEmitter.emit("express.routing.rest", this.expressServer);
-		eventEmitter.emit("express.routing.graphql", this.expressServer);
-
-		eventEmitter.emit("lazuli.init.after");
-	}
+	constructor() {}
 }
 /**
  * The global event emitter
@@ -48,7 +32,6 @@ Lazuli.prototype.valueFilter = valueFilter;
  * @type {Object}
  */
 Lazuli.prototype.sequelize = initDatabase(eventEmitter, valueFilter);
-
 /**
  * The global express server
  * @type {Object}
@@ -60,5 +43,27 @@ Lazuli.prototype.expressServer = expressServer;
  * @type {Object}
  */
 Lazuli.prototype.httpServer = httpServer;
+
+/**
+ * Initiates the lazuli object
+ * @return {void}
+ */
+Lazuli.prototype.init = function() {
+	eventEmitter.emit("lazuli.init.before");
+
+	eventEmitter.emit("model.init.before");
+	const models = valueFilter.filterable("sequelize.models", [], sequelize);
+	models.forEach(model => {
+		if (model.associate) {
+			model.associate(models);
+		}
+	});
+	eventEmitter.emit("model.init.after");
+
+	eventEmitter.emit("express.routing.rest", this.expressServer);
+	eventEmitter.emit("express.routing.graphql", this.expressServer);
+
+	eventEmitter.emit("lazuli.init.after");
+};
 
 module.exports = new Lazuli();

@@ -12,7 +12,7 @@ const helmet = require("helmet");
 const compression = require("compression");
 
 module.exports = (eventEmitter, valueFilter) => {
-	logger.log("info", "Starting express server...");
+	logger.log("info", "Starting express server");
 
 	const expressServer = new express();
 
@@ -20,7 +20,7 @@ module.exports = (eventEmitter, valueFilter) => {
 		logger.log(
 			"info",
 			"Server running on",
-			server.address().address + ":" + server.address().port
+			httpServer.address().address + ":" + httpServer.address().port
 		);
 	});
 
