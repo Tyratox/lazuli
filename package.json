@@ -1,5 +1,5 @@
 {
-	"name": "lazuli",
+	"name": "lazuli-core",
 	"version": "1.0.0",
 	"description": "A node js api framework thingy",
 	"main": "src/lazuli-core.js",
