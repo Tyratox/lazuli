@@ -52,7 +52,7 @@ Lazuli.prototype.init = function() {
 	eventEmitter.emit("lazuli.init.before");
 
 	eventEmitter.emit("model.init.before");
-	const models = valueFilter.filterable("sequelize.models", [], sequelize);
+	const models = valueFilter.filterable("sequelize.models", [], this.sequelize);
 	models.forEach(model => {
 		if (model.associate) {
 			model.associate(models);

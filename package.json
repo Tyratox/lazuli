@@ -11,7 +11,9 @@
 		"type": "git",
 		"url": "https://github.com/tyratox/lazuli-core.git"
 	},
-	"keywords": ["lazuli-core"],
+	"keywords": [
+		"lazuli-core"
+	],
 	"author": "Nico Hauser",
 	"contributors": [
 		{
