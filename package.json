@@ -2,18 +2,16 @@
 	"name": "lazuli",
 	"version": "1.0.0",
 	"description": "A node js api framework thingy",
-	"main": "src/lazuli.js",
+	"main": "src/lazuli-core.js",
 	"scripts": {
 		"docs": "jsdoc src -r -c jsdoc.json -R README.md -d docs",
 		"test": "ava"
 	},
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/tyratox/lazuli.git"
+		"url": "https://github.com/tyratox/lazuli-core.git"
 	},
-	"keywords": [
-		"lazuli"
-	],
+	"keywords": ["lazuli-core"],
 	"author": "Nico Hauser",
 	"contributors": [
 		{
@@ -24,9 +22,9 @@
 	],
 	"license": "UNLICENSED",
 	"bugs": {
-		"url": "https://github.com/tyratox/lazuli/issues"
+		"url": "https://github.com/tyratox/lazuli-core/issues"
 	},
-	"homepage": "https://lazuli.tyratox.ch",
+	"homepage": "https://lazuli-core.tyratox.ch",
 	"dependencies": {
 		"body-parser": "^1.17.2",
 		"compression": "^1.7.0",
