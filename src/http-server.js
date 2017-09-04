@@ -24,6 +24,8 @@ module.exports = (eventEmitter, valueFilter) => {
 		);
 	});
 
+	httpServer.on("express.stop", httpServer.close);
+
 	eventEmitter.emit("express.init.before", expressServer);
 
 	logger.log("info", "Enabling gzip compression");

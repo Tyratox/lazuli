@@ -58,7 +58,7 @@ Lazuli.prototype.init = function() {
 		})
 		.then(() => {
 			models = valueFilter.filterable("sequelize.models", [], this.sequelize);
-			return eventEmitter.emit("model.association");
+			return eventEmitter.emit("model.association", models);
 		})
 		.then(() => {
 			return eventEmitter.emit("model.init.after");
