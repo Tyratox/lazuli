@@ -3,7 +3,7 @@ const path = require("path");
 const initDatabase = require("./database");
 const initHttpServer = require("./http-server");
 
-const eventEmitter = new (require("events"))();
+const eventEmitter = new (require("promise-events"))();
 const valueFilter = new (require("lazuli-require")("lazuli-filters"))();
 
 const { expressServer, httpServer } = initHttpServer(eventEmitter, valueFilter);
@@ -49,21 +49,29 @@ Lazuli.prototype.httpServer = httpServer;
  * @return {void}
  */
 Lazuli.prototype.init = function() {
-	eventEmitter.emit("lazuli.init.before");
+	let models;
 
-	eventEmitter.emit("model.init.before");
-	const models = valueFilter.filterable("sequelize.models", [], this.sequelize);
-	models.forEach(model => {
-		if (model.associate) {
-			model.associate(models);
-		}
-	});
-	eventEmitter.emit("model.init.after");
-
-	eventEmitter.emit("express.routing.rest", this.expressServer);
-	eventEmitter.emit("express.routing.graphql", this.expressServer);
-
-	eventEmitter.emit("lazuli.init.after");
+	eventEmitter
+		.emit("lazuli.init.before")
+		.then(() => {
+			return eventEmitter.emit("model.init.before");
+		})
+		.then(() => {
+			models = valueFilter.filterable("sequelize.models", [], this.sequelize);
+			return eventEmitter.emit("model.association");
+		})
+		.then(() => {
+			return eventEmitter.emit("model.init.after");
+		})
+		.then(() => {
+			return eventEmitter.emit("express.routing.rest", this.expressServer);
+		})
+		.then(() => {
+			return eventEmitter.emit("express.routing.graphql", this.expressServer);
+		})
+		.then(() => {
+			return eventEmitter.emit("lazuli.init.after");
+		});
 };
 
 module.exports = new Lazuli();
