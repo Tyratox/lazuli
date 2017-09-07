@@ -11,6 +11,14 @@ const bodyParser = require("body-parser");
 const helmet = require("helmet");
 const compression = require("compression");
 
+const serializeValidationError = obj => {
+	return obj.errors
+		.map(error => {
+			return "validation[]=" + error.field;
+		})
+		.join("&");
+};
+
 module.exports = (eventEmitter, valueFilter) => {
 	logger.log("info", "Starting express server");
 
@@ -64,6 +72,19 @@ module.exports = (eventEmitter, valueFilter) => {
 
 		next();
 	});
+
+	expressServer.serializeValidationErrors = () => {
+		return (err, request, response, next) => {
+			if (err.message === "validation error") {
+				return response.redirect(
+					url.includes("?")
+						? url + "&" + this.EncodingUtilities.serializeValidationError(err)
+						: url + "/?" + this.EncodingUtilities.serializeValidationError(err)
+				);
+			}
+			next(err);
+		};
+	};
 
 	eventEmitter.emit("express.init.after", expressServer);
 
