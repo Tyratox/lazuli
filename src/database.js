@@ -10,6 +10,7 @@ const {
 } = require("lazuli-require")("lazuli-config");
 
 const Sequelize = require("sequelize");
+import {relay: {sequelizeNodeInterface}} from 'graphql-sequelize';
 
 module.exports = (eventEmitter, valueFilter) => {
 	if (
@@ -32,7 +33,7 @@ module.exports = (eventEmitter, valueFilter) => {
 				DB_DIALECT +
 				")"
 		);
-		return new Sequelize(DB_NAME, DB_USERNAME, DB_PASSWORD, {
+		let sequelize = new Sequelize(DB_NAME, DB_USERNAME, DB_PASSWORD, {
 			host: DB_HOST,
 			port: DB_PORT,
 			dialect: DB_DIALECT,
@@ -45,6 +46,16 @@ module.exports = (eventEmitter, valueFilter) => {
 				charset: "utf8mb4"
 			}
 		});
+
+		const { nodeInterface, nodeField, nodeTypeMapper } = sequelizeNodeInterface(
+			sequelize
+		);
+
+		sequelize.nodeInterface = nodeInterface;
+		sequelize.nodeField = nodeField;
+		sequelize.nodeTypeMapper = nodeTypeMapper;
+
+		return sequelize;
 	} else {
 		logger.log("error", "Please define all required db fields");
 		process.exit(1);
