@@ -10,7 +10,7 @@ const {
 } = require("lazuli-require")("lazuli-config");
 
 const Sequelize = require("sequelize");
-import {relay: {sequelizeNodeInterface}} from 'graphql-sequelize';
+const { relay: { sequelizeNodeInterface } } = require("graphql-sequelize");
 
 module.exports = (eventEmitter, valueFilter) => {
 	if (
