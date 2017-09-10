@@ -67,7 +67,7 @@ Lazuli.prototype.init = function() {
 					types[model.name] = model.graphQlType;
 				}
 			});
-			this.sequelize.nodeTypeMapper(types);
+			this.sequelize.nodeTypeMapper.mapTypes(types);
 			return eventEmitter.emit("model.init.after");
 		})
 		.then(() => {
