@@ -74,7 +74,11 @@ Lazuli.prototype.init = function() {
 			return eventEmitter.emit("express.routing.rest", this.expressServer);
 		})
 		.then(() => {
-			return eventEmitter.emit("express.routing.graphql", this.expressServer);
+			return eventEmitter.emit(
+				"express.routing.graphql",
+				this.expressServer,
+				this.sequelize
+			);
 		})
 		.then(() => {
 			return eventEmitter.emit("lazuli.init.after");
