@@ -55,6 +55,8 @@ module.exports = (eventEmitter, valueFilter) => {
 		sequelize.nodeField = nodeField;
 		sequelize.nodeTypeMapper = nodeTypeMapper;
 
+		sequelize.attributeFieldsCache = {};
+
 		return sequelize;
 	} else {
 		logger.log("error", "Please define all required db fields");
