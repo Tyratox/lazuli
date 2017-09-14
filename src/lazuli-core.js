@@ -68,6 +68,11 @@ Lazuli.prototype.init = function() {
 				}
 			});
 			this.sequelize.nodeTypeMapper.mapTypes(types);
+
+			sequelize.sync({
+				force: true //for dev
+			});
+
 			return eventEmitter.emit("model.init.after");
 		})
 		.then(() => {
