@@ -69,7 +69,7 @@ Lazuli.prototype.init = function() {
 			});
 			this.sequelize.nodeTypeMapper.mapTypes(types);
 
-			sequelize.sync({
+			this.sequelize.sync({
 				force: true //for dev
 			});
 
