@@ -28,7 +28,7 @@ module.exports = (eventEmitter, valueFilter) => {
 		logger.log(
 			"info",
 			"Server running on",
-			httpServer.address().address + ":" + httpServer.address().port
+			"http://" + httpServer.address().address + ":" + httpServer.address().port
 		);
 	});
 
