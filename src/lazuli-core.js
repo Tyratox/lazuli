@@ -8,6 +8,7 @@ const valueFilter = new (require("lazuli-require")("lazuli-filters"))();
 
 const { expressServer, httpServer } = initHttpServer(eventEmitter, valueFilter);
 
+const { GraphQLSchema, GraphQLObjectType } = require("graphql");
 const graphqlHTTP = require("express-graphql");
 
 /**
