@@ -8,6 +8,8 @@ const valueFilter = new (require("lazuli-require")("lazuli-filters"))();
 
 const { expressServer, httpServer } = initHttpServer(eventEmitter, valueFilter);
 
+const graphqlHTTP = require("express-graphql");
+
 /**
  * The lazuli class
  * @type {Lazuli}
@@ -79,11 +81,41 @@ Lazuli.prototype.init = function() {
 			return eventEmitter.emit("express.routing.rest", this.expressServer);
 		})
 		.then(() => {
-			return eventEmitter.emit(
-				"express.routing.graphql",
-				this.expressServer,
-				this.sequelize
+			return eventEmitter.emit("express.routing.graphql.before");
+		})
+		.then(() => {
+			this.expressServer.use(
+				"/graphql",
+				graphqlHTTP(request => {
+					return {
+						schema: new GraphQLSchema({
+							query: new GraphQLObjectType({
+								name: "RootQuery",
+								fields: valueFilter.filterable(
+									"graphql.schema.root.query.fields",
+									{ node: this.sequelize.nodeField },
+									this.sequelize,
+									models
+								)
+							}),
+							mutation: new GraphQLObjectType({
+								name: "RootMutation",
+								fields: valueFilter.filterable(
+									"graphql.schema.root.mutation.fields",
+									{},
+									this.sequelize,
+									models
+								)
+							})
+						}),
+						context: request,
+						graphiql: true
+					};
+				})
 			);
+		})
+		.then(() => {
+			return eventEmitter.emit("express.routing.graphql.after");
 		})
 		.then(() => {
 			return eventEmitter.emit("lazuli.init.after");
