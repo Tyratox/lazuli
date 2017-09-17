@@ -54,30 +54,32 @@ Lazuli.prototype.init = function() {
 			return eventEmitter.emit("express.routing.graphql.before");
 		})
 		.then(() => {
+			const schema = new GraphQLSchema({
+				query: new GraphQLObjectType({
+					name: "RootQuery",
+					fields: valueFilter.filterable(
+						"graphql.schema.root.query.fields",
+						{ node: sequelize.nodeField },
+						sequelize,
+						models
+					)
+				}),
+				mutation: new GraphQLObjectType({
+					name: "RootMutation",
+					fields: valueFilter.filterable(
+						"graphql.schema.root.mutation.fields",
+						{},
+						sequelize,
+						models
+					)
+				})
+			});
+
 			expressServer.use(
 				"/graphql",
 				graphqlHTTP(request => {
 					return {
-						schema: new GraphQLSchema({
-							query: new GraphQLObjectType({
-								name: "RootQuery",
-								fields: valueFilter.filterable(
-									"graphql.schema.root.query.fields",
-									{ node: sequelize.nodeField },
-									sequelize,
-									models
-								)
-							}),
-							mutation: new GraphQLObjectType({
-								name: "RootMutation",
-								fields: valueFilter.filterable(
-									"graphql.schema.root.mutation.fields",
-									{},
-									sequelize,
-									models
-								)
-							})
-						}),
+						schema,
 						context: request,
 						graphiql: true
 					};
