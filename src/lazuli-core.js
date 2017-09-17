@@ -80,7 +80,7 @@ Lazuli.prototype.init = function() {
 				graphqlHTTP(request => {
 					return {
 						schema,
-						context: request,
+						context: { request },
 						graphiql: true
 					};
 				})
