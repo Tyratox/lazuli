@@ -1,6 +1,6 @@
 {
 	"name": "lazuli-core",
-	"version": "1.1",
+	"version": "1.2",
 	"description": "A node js api framework thingy",
 	"main": "src/lazuli-core.js",
 	"scripts": {
@@ -11,9 +11,7 @@
 		"type": "git",
 		"url": "https://github.com/tyratox/lazuli-core.git"
 	},
-	"keywords": [
-		"lazuli-core"
-	],
+	"keywords": ["lazuli-core"],
 	"author": "Nico Hauser",
 	"contributors": [
 		{
