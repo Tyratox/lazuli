@@ -1,15 +1,16 @@
+const express = require("express");
+const expressSession = require("express-session");
+const bodyParser = require("body-parser");
+const helmet = require("helmet");
+const compression = require("compression");
+const expressValidation = require("express-validation");
+
 const logger = require("lazuli-require")("lazuli-logger");
 const i18n = require("lazuli-require")("lazuli-i18n");
 
 const { HTTP_PORT, SESSION_SECRET } = require("lazuli-require")(
 	"lazuli-config"
 );
-
-const express = require("express");
-const expressSession = require("express-session");
-const bodyParser = require("body-parser");
-const helmet = require("helmet");
-const compression = require("compression");
 
 const valueFilter = require("./value-filter");
 const eventEmitter = require("./event-emitter");
@@ -68,6 +69,24 @@ expressServer.use((request, response, next) => {
 
 	next();
 });
+
+expressServer.validate = schema => {
+	return expressValidation({
+		...schema,
+		options: {
+			//true ignores additional fields but doesn't throw an error
+			allowUnknownBody: true,
+
+			//but strictly checking parameters and query arguments.
+			//Unknown parameters or querys will throw an error
+			allowUnknownParams: false,
+			allowUnknownQuery: false,
+
+			allowUnknownHeaders: true,
+			allowUnknownCookies: true
+		}
+	});
+};
 
 eventEmitter.emit("express.init.after", expressServer);
 
