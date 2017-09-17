@@ -1,5 +1,3 @@
-const logger = require("lazuli-require")("lazuli-logger");
-
 const {
 	DB_NAME,
 	DB_USERNAME,
@@ -14,6 +12,7 @@ const { relay: { sequelizeNodeInterface } } = require("graphql-sequelize");
 
 const valueFilter = require("./value-filter");
 const eventEmitter = require("./event-emitter");
+const logger = require("./logger");
 
 //
 
