@@ -1,6 +1,6 @@
 {
 	"name": "lazuli-core",
-	"version": "1.2.3",
+	"version": "1.2.4",
 	"description": "A node js api framework thingy",
 	"main": "src/lazuli-core.js",
 	"scripts": {

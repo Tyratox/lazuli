@@ -14,8 +14,6 @@ const valueFilter = require("./value-filter");
 const eventEmitter = require("./event-emitter");
 const logger = require("./logger");
 
-//
-
 if (DB_HOST && DB_PORT && DB_NAME && DB_USERNAME && DB_PASSWORD && DB_DIALECT) {
 	logger.log(
 		"info",
@@ -58,7 +56,7 @@ if (DB_HOST && DB_PORT && DB_NAME && DB_USERNAME && DB_PASSWORD && DB_DIALECT) {
 
 	sequelize.attributeFieldsCache = {};
 
-	return sequelize;
+	module.exports = sequelize;
 } else {
 	logger.log("error", "Please define all required db fields");
 	process.exit(1);
