@@ -51,13 +51,13 @@ Lazuli.prototype.init = function() {
 			return eventEmitter.emit("model.init.after");
 		})
 		.then(() => {
-			return eventEmitter.emit("express.routing.rest", this.expressServer);
+			return eventEmitter.emit("express.routing.rest", expressServer);
 		})
 		.then(() => {
 			return eventEmitter.emit("express.routing.graphql.before");
 		})
 		.then(() => {
-			this.expressServer.use(
+			expressServer.use(
 				"/graphql",
 				graphqlHTTP(request => {
 					return {
