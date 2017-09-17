@@ -2,7 +2,7 @@ const path = require("path");
 
 const { expressServer, httpServer } = require("../globals/http-server");
 const valueFilter = require("../globals/value-filter");
-const eventEmitter = require("../globals/events");
+const eventEmitter = require("../globals/event-emitter");
 const sequelize = require("../globals/sequelize");
 
 const { GraphQLSchema, GraphQLObjectType } = require("graphql");

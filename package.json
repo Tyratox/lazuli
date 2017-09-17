@@ -11,7 +11,9 @@
 		"type": "git",
 		"url": "https://github.com/tyratox/lazuli-core.git"
 	},
-	"keywords": ["lazuli-core"],
+	"keywords": [
+		"lazuli-core"
+	],
 	"author": "Nico Hauser",
 	"contributors": [
 		{
@@ -29,10 +31,12 @@
 		"body-parser": "^1.17.2",
 		"compression": "^1.7.0",
 		"express": "^4.15.4",
+		"express-graphql": "^0.6.11",
 		"express-session": "^1.15.5",
 		"express-validation": "^1.0.2",
 		"graphql": "^0.11.1",
 		"graphql-relay": "^0.5.2",
+		"graphql-sequelize": "^5.4.2",
 		"helmet": "^3.8.1",
 		"joi": "^11.0.1",
 		"mysql2": "^1.4.2",
