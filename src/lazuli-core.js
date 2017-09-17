@@ -8,6 +8,8 @@ const sequelize = require("../globals/sequelize");
 const { GraphQLSchema, GraphQLObjectType } = require("graphql");
 const graphqlHTTP = require("express-graphql");
 
+const { maskErrors } = require("graphql-errors");
+
 /**
  * The lazuli class
  * @type {Lazuli}
@@ -58,26 +60,28 @@ Lazuli.prototype.init = function() {
 				"/graphql",
 				graphqlHTTP(request => {
 					return {
-						schema: new GraphQLSchema({
-							query: new GraphQLObjectType({
-								name: "RootQuery",
-								fields: valueFilter.filterable(
-									"graphql.schema.root.query.fields",
-									{ node: sequelize.nodeField },
-									sequelize,
-									models
-								)
-							}),
-							mutation: new GraphQLObjectType({
-								name: "RootMutation",
-								fields: valueFilter.filterable(
-									"graphql.schema.root.mutation.fields",
-									{},
-									sequelize,
-									models
-								)
+						schema: maskErrors(
+							new GraphQLSchema({
+								query: new GraphQLObjectType({
+									name: "RootQuery",
+									fields: valueFilter.filterable(
+										"graphql.schema.root.query.fields",
+										{ node: sequelize.nodeField },
+										sequelize,
+										models
+									)
+								}),
+								mutation: new GraphQLObjectType({
+									name: "RootMutation",
+									fields: valueFilter.filterable(
+										"graphql.schema.root.mutation.fields",
+										{},
+										sequelize,
+										models
+									)
+								})
 							})
-						}),
+						),
 						context: request,
 						graphiql: true
 					};
