@@ -5,7 +5,6 @@ const helmet = require("helmet");
 const compression = require("compression");
 const expressValidation = require("express-validation");
 
-const logger = require("lazuli-require")("lazuli-logger");
 const i18n = require("lazuli-require")("lazuli-i18n");
 
 const { HTTP_PORT, SESSION_SECRET } = require("lazuli-require")(
@@ -14,8 +13,7 @@ const { HTTP_PORT, SESSION_SECRET } = require("lazuli-require")(
 
 const valueFilter = require("./value-filter");
 const eventEmitter = require("./event-emitter");
-
-//
+const logger = require("./logger");
 
 logger.log("info", "Starting express server");
 
