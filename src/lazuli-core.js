@@ -1,10 +1,10 @@
 const path = require("path");
 
-const initDatabase = require("./database");
-const initHttpServer = require("./http-server");
+const { expressServer, httpServer } = require("../globals/http-server");
 
-const eventEmitter = new (require("promise-events"))();
-const valueFilter = new (require("lazuli-require")("lazuli-filters"))();
+const valueFilter = require("../globals/value-filter");
+const eventEmitter = require("../globals/events");
+const sequelize = require("../globals/sequelize");
 
 const { expressServer, httpServer } = initHttpServer(eventEmitter, valueFilter);
 
@@ -18,34 +18,6 @@ const graphqlHTTP = require("express-graphql");
 class Lazuli {
 	constructor() {}
 }
-/**
- * The global event emitter
- * @type {EventEmitter}
- */
-Lazuli.prototype.eventEmitter = eventEmitter;
-
-/**
- * The global value filter
- * @type {ValueFilter}
- */
-Lazuli.prototype.valueFilter = valueFilter;
-
-/**
- * The global sequelize object
- * @type {Object}
- */
-Lazuli.prototype.sequelize = initDatabase(eventEmitter, valueFilter);
-/**
- * The global express server
- * @type {Object}
- */
-Lazuli.prototype.expressServer = expressServer;
-
-/**
- * The global http server object
- * @type {Object}
- */
-Lazuli.prototype.httpServer = httpServer;
 
 /**
  * Initiates the lazuli object
@@ -60,7 +32,7 @@ Lazuli.prototype.init = function() {
 			return eventEmitter.emit("model.init.before");
 		})
 		.then(() => {
-			models = valueFilter.filterable("sequelize.models", {}, this.sequelize);
+			models = valueFilter.filterable("sequelize.models", {}, sequelize);
 			return eventEmitter.emit("model.association", models);
 		})
 		.then(() => {
@@ -70,9 +42,9 @@ Lazuli.prototype.init = function() {
 					types[model.name] = model.graphQlType;
 				}
 			});
-			this.sequelize.nodeTypeMapper.mapTypes(types);
+			sequelize.nodeTypeMapper.mapTypes(types);
 
-			this.sequelize.sync({
+			sequelize.sync({
 				force: true //for dev
 			});
 
@@ -94,8 +66,8 @@ Lazuli.prototype.init = function() {
 								name: "RootQuery",
 								fields: valueFilter.filterable(
 									"graphql.schema.root.query.fields",
-									{ node: this.sequelize.nodeField },
-									this.sequelize,
+									{ node: sequelize.nodeField },
+									sequelize,
 									models
 								)
 							}),
@@ -104,7 +76,7 @@ Lazuli.prototype.init = function() {
 								fields: valueFilter.filterable(
 									"graphql.schema.root.mutation.fields",
 									{},
-									this.sequelize,
+									sequelize,
 									models
 								)
 							})
