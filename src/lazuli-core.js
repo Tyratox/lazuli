@@ -26,6 +26,9 @@ Lazuli.prototype.init = function() {
 	eventEmitter
 		.emit("lazuli.init.before")
 		.then(() => {
+			return eventEmitter.emit("express.init.after", expressServer);
+		})
+		.then(() => {
 			return eventEmitter.emit("model.init.before");
 		})
 		.then(() => {
@@ -88,9 +91,6 @@ Lazuli.prototype.init = function() {
 		})
 		.then(() => {
 			return eventEmitter.emit("express.routing.graphql.after");
-		})
-		.then(() => {
-			return eventEmitter.emit("express.init.after", expressServer);
 		})
 		.then(() => {
 			return eventEmitter.emit("lazuli.init.after");
