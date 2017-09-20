@@ -29,8 +29,6 @@ const httpServer = expressServer.listen(HTTP_PORT, "0.0.0.0", () => {
 
 httpServer.on("express.stop", httpServer.close);
 
-eventEmitter.emit("express.init.before", expressServer);
-
 logger.log("info", "Enabling gzip compression");
 expressServer.use(compression());
 
@@ -85,7 +83,5 @@ expressServer.validate = schema => {
 		}
 	});
 };
-
-eventEmitter.emit("express.init.after", expressServer);
 
 module.exports = { expressServer, httpServer };

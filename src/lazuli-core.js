@@ -90,6 +90,9 @@ Lazuli.prototype.init = function() {
 			return eventEmitter.emit("express.routing.graphql.after");
 		})
 		.then(() => {
+			return eventEmitter.emit("express.init.after", expressServer);
+		})
+		.then(() => {
 			return eventEmitter.emit("lazuli.init.after");
 		})
 		.catch(e => {
