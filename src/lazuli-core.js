@@ -44,10 +44,11 @@ Lazuli.prototype.init = function() {
 			});
 			sequelize.nodeTypeMapper.mapTypes(types);
 
-			sequelize.sync({
+			return sequelize.sync({
 				force: true //for dev
 			});
-
+		})
+		.then(() => {
 			return eventEmitter.emit("model.init.after");
 		})
 		.then(() => {
