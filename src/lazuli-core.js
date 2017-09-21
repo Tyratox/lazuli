@@ -23,7 +23,7 @@ class Lazuli {
 Lazuli.prototype.init = function() {
 	let models;
 
-	eventEmitter
+	return eventEmitter
 		.emit("lazuli.init.before")
 		.then(() => {
 			return eventEmitter.emit("express.init.after", expressServer);
