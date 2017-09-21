@@ -81,6 +81,23 @@ Lazuli.prototype.init = function() {
 
 			expressServer.use(
 				"/graphql",
+				(request, response, next) => {
+					const middlewares = valueFilter.filterable(
+						"graphql.middleware.before",
+						[]
+					);
+					const loop = (iterator = 0) => {
+						if (iterator < middlewares.length) {
+							middlewares[iterator](request, response, () => {
+								loop(iterator + 1);
+							});
+						} else {
+							next();
+						}
+					};
+
+					loop();
+				},
 				graphqlHTTP(request => {
 					return {
 						schema,
