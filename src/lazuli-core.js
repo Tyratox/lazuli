@@ -102,7 +102,12 @@ Lazuli.prototype.init = function() {
 					return {
 						schema,
 						context: { request },
-						graphiql: true
+						//TEMP dev
+						graphiql: true,
+						formatError: error => ({
+							message: error.message,
+							details: error.stack
+						})
 					};
 				})
 			);
