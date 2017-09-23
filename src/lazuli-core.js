@@ -117,9 +117,6 @@ Lazuli.prototype.init = function() {
 		})
 		.then(() => {
 			return eventEmitter.emit("lazuli.init.after");
-		})
-		.catch(e => {
-			console.log(e);
 		});
 };
 
