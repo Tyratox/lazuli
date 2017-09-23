@@ -18,7 +18,7 @@ class Lazuli {
 
 /**
  * Initiates the lazuli object
- * @return {void}
+ * @return {Promise}
  */
 Lazuli.prototype.init = function() {
 	let models;
