@@ -40,6 +40,16 @@ let sequelize = new Sequelize(DB_NAME, DB_USERNAME, DB_PASSWORD, {
 	}
 });
 
+sequelize
+	.authenticate()
+	.then(() => {
+		logger.log("info", "Connection has been established successfully.");
+	})
+	.catch(err => {
+		logger.error("error", "Unable to connect to the database:");
+		throw err;
+	});
+
 const { nodeInterface, nodeField, nodeTypeMapper } = sequelizeNodeInterface(
 	sequelize
 );
