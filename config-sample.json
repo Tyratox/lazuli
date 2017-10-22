@@ -4,7 +4,10 @@
 	"DB_NAME": "",
 	"DB_USERNAME": "",
 	"DB_PASSWORD": "",
-	"DB_DIALECT": "mysql",
+	"DB_DIALECT": "postgres",
+	"DB_POOL_MIN": 1,
+	"DB_POOL_MAX": 5,
+	"DB_POOL_IDLE": 10000,
 
 	"HTTP_PORT": 8100,
 	"SESSION_SECRET": "",

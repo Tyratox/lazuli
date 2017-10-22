@@ -11,7 +11,9 @@
 		"type": "git",
 		"url": "https://github.com/tyratox/lazuli-core.git"
 	},
-	"keywords": ["lazuli-core"],
+	"keywords": [
+		"lazuli-core"
+	],
 	"author": "Nico Hauser",
 	"contributors": [
 		{
@@ -29,7 +31,6 @@
 		"body-parser": "^1.17.2",
 		"compression": "^1.7.0",
 		"express": "^4.15.4",
-		"express-graphql": "^0.6.11",
 		"express-session": "^1.15.5",
 		"express-validation": "^1.0.2",
 		"graphql": "^0.11.1",
@@ -50,11 +51,6 @@
 		"lazuli-require": "tyratox/lazuli-require"
 	},
 	"devDependencies": {
-		"ava": "^0.22.0",
-		"babel-core": "^6.26.0",
-		"babel-preset-env": "^1.6.0",
-		"babel-register": "^6.26.0",
-		"jsdoc": "^3.5.4",
 		"lazuli-config": "tyratox/lazuli-config",
 		"lazuli-filters": "tyratox/lazuli-filters",
 		"lazuli-i18n": "tyratox/lazuli-i18n",

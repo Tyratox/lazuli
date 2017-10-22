@@ -84,4 +84,6 @@ expressServer.validate = schema => {
 	});
 };
 
-module.exports = { expressServer, httpServer };
+expressServer.httpServer = httpServer;
+
+module.exports = expressServer;
