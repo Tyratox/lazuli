@@ -8,8 +8,7 @@ transports.push(
 		name: "console-log",
 		level: "info",
 		colorize: true,
-		prettyPrint: true,
-		handleExceptions: true
+		prettyPrint: true
 	})
 );
 transports.push(
