@@ -12,5 +12,7 @@
 	"HTTP_PORT": 8100,
 	"SESSION_SECRET": "",
 
-	"HOST": ""
+	"HOST": "",
+	
+	"LOG_FILE": "logs/lazuli.log"
 }
