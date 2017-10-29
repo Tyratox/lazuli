@@ -2,7 +2,7 @@
 	"name": "lazuli-core",
 	"version": "1.2.5",
 	"description": "A node js api framework thingy",
-	"main": "src/lazuli-core.js",
+	"main": "lazuli-core.js",
 	"scripts": {
 		"docs": "jsdoc src -r -c jsdoc.json -R README.md -d docs",
 		"test": "ava"
