@@ -38,7 +38,7 @@ let sequelize = new Sequelize(DB_NAME, DB_USERNAME, DB_PASSWORD, {
 		min: DB_POOL_MIN,
 		idle: DB_POOL_IDLE
 	},
-	logging: logger.log.bind(undefined, "debug")
+	logging: s => logger.log("debug", s)
 });
 
 sequelize
