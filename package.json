@@ -37,6 +37,7 @@
 		"graphql-relay": "^0.5.2",
 		"graphql-sequelize": "^5.4.2",
 		"helmet": "^3.8.1",
+		"i18n": "^0.8.3",
 		"joi": "^11.0.1",
 		"mysql2": "^1.4.2",
 		"promise-events": "^0.1.3",

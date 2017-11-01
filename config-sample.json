@@ -14,5 +14,10 @@
 
 	"HOST": "",
 	
-	"LOG_FILE": "logs/lazuli.log"
+	"LOG_FILE": "logs/lazuli.log",
+	
+	"LOCALE_PATH": "./locales/",
+	"LOCALES": [
+		"en-us"
+	]
 }
