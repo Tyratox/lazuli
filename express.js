@@ -89,20 +89,6 @@ expressServer.validate = schema => {
 	});
 };
 
-//add rate limiter helper
-eventEmitter.on("init", () => {
-	return new Promise((resolve, reject) => {
-		new SequelizeStore(sequelize, "brute_store", {}, store => {
-			if (!store) {
-				return reject(new Error("Unknown error; " + store));
-			}
-
-			expressServer.bruteforce = new ExpressBrute(store);
-			resolve();
-		});
-	});
-});
-
 expressServer.httpServer = httpServer;
 
 module.exports = expressServer;
