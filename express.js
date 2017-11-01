@@ -4,8 +4,6 @@ const bodyParser = require("body-parser");
 const helmet = require("helmet");
 const compression = require("compression");
 const expressValidation = require("express-validation");
-const ExpressBrute = require("express-brute");
-const SequelizeStore = require("express-brute-sequelize");
 
 const i18n = require("./i18n");
 
