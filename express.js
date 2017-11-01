@@ -4,6 +4,8 @@ const bodyParser = require("body-parser");
 const helmet = require("helmet");
 const compression = require("compression");
 const expressValidation = require("express-validation");
+const ExpressBrute = require("express-brute");
+const SequelizeStore = require("express-brute-sequelize");
 
 const i18n = require("./i18n");
 
@@ -11,6 +13,7 @@ const { HTTP_PORT, SESSION_SECRET } = require("lazuli-require")(
 	"lazuli-config"
 );
 
+const sequelize = require("./sequelize");
 const valueFilter = require("./value-filter");
 const eventEmitter = require("./event-emitter");
 const logger = require("./logger");
@@ -66,6 +69,8 @@ expressServer.use((request, response, next) => {
 	next();
 });
 
+//add validation helper
+
 expressServer.validate = schema => {
 	return expressValidation({
 		...schema,
@@ -83,6 +88,20 @@ expressServer.validate = schema => {
 		}
 	});
 };
+
+//add rate limiter helper
+eventEmitter.on("init", () => {
+	return new Promise((resolve, reject) => {
+		new SequelizeStore(sequelize, "brute_store", {}, store => {
+			if (!store) {
+				return reject(new Error("Unknown error; " + store));
+			}
+
+			expressServer.bruteforce = new ExpressBrute(store);
+			resolve();
+		});
+	});
+});
 
 expressServer.httpServer = httpServer;
 
