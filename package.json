@@ -47,15 +47,11 @@
 	"peerDependencies": {
 		"lazuli-config": "tyratox/lazuli-config",
 		"lazuli-filters": "tyratox/lazuli-filters",
-		"lazuli-i18n": "tyratox/lazuli-i18n",
-		"lazuli-logger": "tyratox/lazuli-logger",
 		"lazuli-require": "tyratox/lazuli-require"
 	},
 	"devDependencies": {
 		"lazuli-config": "tyratox/lazuli-config",
 		"lazuli-filters": "tyratox/lazuli-filters",
-		"lazuli-i18n": "tyratox/lazuli-i18n",
-		"lazuli-logger": "tyratox/lazuli-logger",
 		"lazuli-require": "tyratox/lazuli-require"
 	}
 }

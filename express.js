@@ -5,7 +5,7 @@ const helmet = require("helmet");
 const compression = require("compression");
 const expressValidation = require("express-validation");
 
-const i18n = require("lazuli-require")("lazuli-i18n");
+const i18n = require("./i18n");
 
 const { HTTP_PORT, SESSION_SECRET } = require("lazuli-require")(
 	"lazuli-config"
