@@ -26,7 +26,6 @@ const logger = new winston.Logger({
 			name: "file",
 			level: "debug",
 			filename: LOG_FILE,
-			handleExceptions: true,
 			colorize: false,
 			prettyPrint: true
 		})
