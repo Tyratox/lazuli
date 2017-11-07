@@ -1,6 +1,6 @@
 class OperationalError extends Error {
-	constructor() {
-		super();
+	constructor(message, ...args) {
+		super(message, ...args);
 		this.isOperational = true; //bluebird compatible
 	}
 }
