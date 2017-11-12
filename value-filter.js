@@ -1,1 +1,1 @@
-module.exports = new (require("lazuli-require")("lazuli-filters"))();
+module.exports = new (require("lazuli-filters"))();

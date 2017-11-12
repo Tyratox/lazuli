@@ -1,4 +1,4 @@
-const { LOCALE_PATH, LOCALES } = require("lazuli-require")("lazuli-config");
+const { LOCALE_PATH, LOCALES } = require("lazuli-config");
 
 /**
  * The configured i18n object

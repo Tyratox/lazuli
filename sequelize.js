@@ -8,7 +8,7 @@ const {
 	DB_POOL_MIN,
 	DB_POOL_MAX,
 	DB_POOL_IDLE
-} = require("lazuli-require")("lazuli-config");
+} = require("lazuli-config");
 
 const Sequelize = require("sequelize");
 const { relay: { sequelizeNodeInterface } } = require("graphql-sequelize");

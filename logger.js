@@ -1,4 +1,4 @@
-const { LOG_FILE } = require("lazuli-require")("lazuli-config");
+const { LOG_FILE } = require("lazuli-config");
 
 const winston = require("winston");
 

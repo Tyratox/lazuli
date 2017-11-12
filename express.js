@@ -7,9 +7,7 @@ const expressValidation = require("express-validation");
 
 const i18n = require("./i18n");
 
-const { HTTP_PORT, SESSION_SECRET } = require("lazuli-require")(
-	"lazuli-config"
-);
+const { HTTP_PORT, SESSION_SECRET } = require("lazuli-config");
 
 const sequelize = require("./sequelize");
 const valueFilter = require("./value-filter");

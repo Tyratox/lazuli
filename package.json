@@ -4,8 +4,7 @@
 	"description": "A node js api framework thingy",
 	"main": "lazuli-core.js",
 	"scripts": {
-		"docs": "jsdoc src -r -c jsdoc.json -R README.md -d docs",
-		"test": "ava"
+		"docs": "jsdoc src -r -c jsdoc.json -R README.md -d docs"
 	},
 	"repository": {
 		"type": "git",
@@ -46,12 +45,10 @@
 	},
 	"peerDependencies": {
 		"lazuli-config": "tyratox/lazuli-config",
-		"lazuli-filters": "tyratox/lazuli-filters",
-		"lazuli-require": "tyratox/lazuli-require"
+		"lazuli-filters": "tyratox/lazuli-filters"
 	},
 	"devDependencies": {
-		"lazuli-config": "tyratox/lazuli-config",
-		"lazuli-filters": "tyratox/lazuli-filters",
-		"lazuli-require": "tyratox/lazuli-require"
+		"pg": "^7.4.0",
+		"pg-hstore": "^2.3.2"
 	}
 }
