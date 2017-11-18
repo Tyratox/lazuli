@@ -72,13 +72,13 @@ const logger = new winston.Logger({
 			prettyPrint: true
 		}),
 		new winston.transports.File({
-			name: "file",
+			name: "file-warning",
 			level: "warning",
 			filename: path.join(LOG_DIRECTORY, "error.log"),
 			prettyPrint: true
 		}),
 		new winston.transports.LevelTransport({
-			name: "file",
+			name: "file-violation",
 			level: "violation",
 			filename: path.join(LOG_DIRECTORY, "violation.log"),
 			transportClass: winston.transports.File
