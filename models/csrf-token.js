@@ -1,4 +1,4 @@
-const { STRING } = require("sequelize");
+const { STRING, DATE } = require("sequelize");
 
 const { CSRF_TOKEN_LIFETIME } = require("lazuli-config");
 
@@ -142,10 +142,11 @@ CsrfToken.verifyToken = function(token, userId) {
 		where: { hash: this.hashToken(token), userId }
 	}).then(model => {
 		if (model) {
-			return model.destory().then(() => Promise.resolve());
-		} else {
-			Promise.reject(new OperationalError("The csrf token did't match"));
+			if (model.get("expires") > Date.now()) {
+				return model.destory().then(() => Promise.resolve());
+			}
 		}
+		Promise.reject(new OperationalError("The csrf token wasn't found"));
 	});
 };
 
