@@ -1,3 +1,9 @@
+/**
+ * Exports an instance of {@link https://www.npmjs.com/package/sequelize sequelize}
+ * that's globally accessible
+ * @module lazuli-core/models/logger
+ */
+
 const {
 	DB_NAME,
 	DB_USERNAME,

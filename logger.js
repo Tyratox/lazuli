@@ -1,3 +1,9 @@
+/**
+ * Exports an instance of a {@link https://www.npmjs.com/package/winston winston}
+ * logger that's globally accessible
+ * @module lazuli-core/models/logger
+ */
+
 const { LOG_FILE } = require("lazuli-config");
 
 const winston = require("winston");

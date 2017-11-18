@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>sequelize.js - Documentation</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="module-lazuli-core_models_csrf-token.CsrfToken.html">CsrfToken</a><ul class='methods'><li data-type='method'><a href="module-lazuli-core_models_csrf-token.CsrfToken.html#.associate">associate</a></li><li data-type='method'><a href="module-lazuli-core_models_csrf-token.CsrfToken.html#.generateToken">generateToken</a></li></ul></li><li><a href="module-lazuli-core_models_currency.Currency.html">Currency</a><ul class='methods'><li data-type='method'><a href="module-lazuli-core_models_currency.Currency.html#.associate">associate</a></li></ul></li><li><a href="module-lazuli-core_models_i18n.I18n.html">I18n</a><ul class='methods'><li data-type='method'><a href="module-lazuli-core_models_i18n.I18n.html#.associate">associate</a></li></ul></li><li><a href="module-lazuli-core_models_locale.Locale.html">Locale</a><ul class='methods'><li data-type='method'><a href="module-lazuli-core_models_locale.Locale.html#.associate">associate</a></li></ul></li><li><a href="module-lazuli-core_models_translation.Translation.html">Translation</a><ul class='methods'><li data-type='method'><a href="module-lazuli-core_models_translation.Translation.html#.associate">associate</a></li></ul></li></ul><h3>Modules</h3><ul><li><a href="module-lazuli-authentication_utilities_crypto.html">lazuli-authentication/utilities/crypto</a><ul class='methods'><li data-type='method'><a href="module-lazuli-authentication_utilities_crypto.html#~generateHash">generateHash</a></li><li data-type='method'><a href="module-lazuli-authentication_utilities_crypto.html#~generateRandomAlphanumString">generateRandomAlphanumString</a></li><li data-type='method'><a href="module-lazuli-authentication_utilities_crypto.html#~generateRandomString">generateRandomString</a></li></ul></li><li><a href="module-lazuli-core_models_csrf-token.html">lazuli-core/models/csrf-token</a></li><li><a href="module-lazuli-core_models_currency.html">lazuli-core/models/currency</a></li><li><a href="module-lazuli-core_models_event-emitter.html">lazuli-core/models/event-emitter</a></li><li><a href="module-lazuli-core_models_express.html">lazuli-core/models/express</a></li><li><a href="module-lazuli-core_models_i18n.html">lazuli-core/models/i18n</a></li><li><a href="module-lazuli-core_models_locale.html">lazuli-core/models/locale</a></li><li><a href="module-lazuli-core_models_logger.html">lazuli-core/models/logger</a></li><li><a href="module-lazuli-core_models_translation.html">lazuli-core/models/translation</a></li><li><a href="module-lazuli-core_models_value-filter.html">lazuli-core/models/value-filter</a></li></ul><h3>Events</h3><ul><li><a href="module-lazuli-core_models_csrf-token.html#~event:%2522core.model.csrf-token.association%2522">"core.model.csrf-token.association"</a></li><li><a href="module-lazuli-core_models_currency.html#~event:%2522core.model.currency.association%2522">"core.model.currency.association"</a></li><li><a href="module-lazuli-core_models_i18n.html#~event:%2522core.model.i18n.association%2522">"core.model.i18n.association"</a></li><li><a href="module-lazuli-core_models_locale.html#~event:%2522core.model.locale.association%2522">"core.model.locale.association"</a></li><li><a href="module-lazuli-core_models_translation.html#~event:%2522core.model.translation.association%2522">"core.model.translation.association"</a></li></ul>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">sequelize.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * Exports an instance of {@link https://www.npmjs.com/package/sequelize sequelize}
+ * that's globally accessible
+ * @module lazuli-core/models/logger
+ */
+
+const {
+	DB_NAME,
+	DB_USERNAME,
+	DB_PASSWORD,
+	DB_HOST,
+	DB_PORT,
+	DB_DIALECT,
+	DB_POOL_MIN,
+	DB_POOL_MAX,
+	DB_POOL_IDLE
+} = require("lazuli-config");
+
+const Sequelize = require("sequelize");
+const { relay: { sequelizeNodeInterface } } = require("graphql-sequelize");
+
+const valueFilter = require("./value-filter");
+const eventEmitter = require("./event-emitter");
+const logger = require("./logger");
+
+logger.log(
+	"info",
+	"Connecting to database: " +
+		DB_USERNAME +
+		"@" +
+		DB_HOST +
+		":" +
+		DB_PORT +
+		" (" +
+		DB_DIALECT +
+		")"
+);
+let sequelize = new Sequelize(DB_NAME, DB_USERNAME, DB_PASSWORD, {
+	host: DB_HOST,
+	port: DB_PORT,
+	dialect: DB_DIALECT,
+	pool: {
+		max: DB_POOL_MAX,
+		min: DB_POOL_MIN,
+		idle: DB_POOL_IDLE
+	},
+	logging: false //s => logger.log("debug", s)
+});
+
+sequelize
+	.authenticate()
+	.then(() => {
+		logger.log("info", "Connection has been established successfully.");
+	})
+	.catch(err => {
+		logger.error("error", "Unable to connect to the database:");
+		throw err;
+	});
+
+const { nodeInterface, nodeField, nodeTypeMapper } = sequelizeNodeInterface(
+	sequelize
+);
+
+sequelize.nodeInterface = nodeInterface;
+sequelize.nodeField = nodeField;
+sequelize.nodeTypeMapper = nodeTypeMapper;
+
+sequelize.attributeFieldsCache = {};
+
+module.exports = sequelize;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sat Nov 18 2017 12:01:30 GMT+0100 (CET) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+</body>
+</html>

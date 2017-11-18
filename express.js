@@ -1,3 +1,9 @@
+/**
+ * Exports an instance of an {@link https://www.npmjs.com/package/express express}
+ * server that's globally accessible
+ * @module lazuli-core/models/express
+ */
+
 const express = require("express");
 const expressSession = require("express-session");
 const bodyParser = require("body-parser");
@@ -28,7 +34,68 @@ const httpServer = expressServer.listen(HTTP_PORT, "0.0.0.0", () => {
 
 httpServer.on("express.stop", httpServer.close);
 
-logger.log("info", "Enabling gzip compression");
+logger.log("info", "Enabling express helmet.dnsPrefetchControl()");
+expressServer.use(helmet.dnsPrefetchControl());
+
+logger.log("info", "Enabling helmet.ieNoOpen()");
+expressServer.use(helmet.ieNoOpen());
+
+logger.log("info", "Enabling helmet.noCache()");
+expressServer.use(helmet.noCache());
+
+logger.log("info", "Disabling 'X-Powered-By'");
+expressServer.disable("X-Powered-By");
+
+logger.log("info", "Setting 'Content-Security-Policy'");
+logger.log("info", "Setting 'Referrer-Policy' to 'no-referrer'");
+logger.log("info", "Setting 'X-Frame-Options' to 'DENY'");
+logger.log("info", "Setting 'X-XSS-Protection' to '1; report=/report/xss'");
+logger.log(
+	"info",
+	"Setting 'Strict-Transport-Security' to 'max-age=31536000; includeSubDomains'"
+);
+logger.log("info", "Setting 'X-Permitted-Cross-Domain-Policies' to 'none'");
+logger.log(
+	"info",
+	"Setting 'Expect-CT' to 'max-age=86400, enforce, report-uri=\"/report/ct\"'"
+);
+
+expressServer.use((request, response, next) => {
+	response.header(
+		"Content-Security-Policy",
+		[
+			"default-src 'none'",
+			"script-src 'self'",
+			"connect-src 'self'",
+			"img-src 'self'",
+			"style-src 'self'",
+			"font-src 'self'",
+			"report-uri /report/csp",
+			"form-action 'self'",
+			"frame-ancestors none", //X-Frame-Options
+			"upgrade-insecure-requests" //Upgrade http to https requests
+		].join(";")
+	);
+	response.header("Referrer-Policy", "no-referrer"); //apis don't need it
+
+	response.header("X-Frame-Options", "DENY");
+	response.header("X-XSS-Protection", "1; report=/report/xss");
+	response.header(
+		"Strict-Transport-Security",
+		"max-age=31536000; includeSubDomains"
+	);
+	response.header("X-Content-Type-Options", "nosniff");
+	response.header("X-Permitted-Cross-Domain-Policies", "none");
+
+	response.header(
+		"Expect-CT",
+		'max-age=86400, enforce, report-uri="/report/ct"'
+	);
+
+	next();
+});
+
+logger.log("info", "Enabling compression");
 expressServer.use(compression());
 
 logger.log("info", "Enabling parsing of json and urlencoded data");
@@ -46,9 +113,6 @@ expressServer.use(
 
 logger.log("info", "Enabling i18n middleware");
 expressServer.use(i18n.init);
-
-logger.log("info", "Enabling express helmet");
-expressServer.use(helmet());
 
 //add validation helper
 

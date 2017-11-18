@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>express.js - Documentation</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="module-lazuli-core_models_csrf-token.CsrfToken.html">CsrfToken</a><ul class='methods'><li data-type='method'><a href="module-lazuli-core_models_csrf-token.CsrfToken.html#.associate">associate</a></li><li data-type='method'><a href="module-lazuli-core_models_csrf-token.CsrfToken.html#.generateToken">generateToken</a></li></ul></li><li><a href="module-lazuli-core_models_currency.Currency.html">Currency</a><ul class='methods'><li data-type='method'><a href="module-lazuli-core_models_currency.Currency.html#.associate">associate</a></li></ul></li><li><a href="module-lazuli-core_models_i18n.I18n.html">I18n</a><ul class='methods'><li data-type='method'><a href="module-lazuli-core_models_i18n.I18n.html#.associate">associate</a></li></ul></li><li><a href="module-lazuli-core_models_locale.Locale.html">Locale</a><ul class='methods'><li data-type='method'><a href="module-lazuli-core_models_locale.Locale.html#.associate">associate</a></li></ul></li><li><a href="module-lazuli-core_models_translation.Translation.html">Translation</a><ul class='methods'><li data-type='method'><a href="module-lazuli-core_models_translation.Translation.html#.associate">associate</a></li></ul></li></ul><h3>Modules</h3><ul><li><a href="module-lazuli-authentication_utilities_crypto.html">lazuli-authentication/utilities/crypto</a><ul class='methods'><li data-type='method'><a href="module-lazuli-authentication_utilities_crypto.html#~generateHash">generateHash</a></li><li data-type='method'><a href="module-lazuli-authentication_utilities_crypto.html#~generateRandomAlphanumString">generateRandomAlphanumString</a></li><li data-type='method'><a href="module-lazuli-authentication_utilities_crypto.html#~generateRandomString">generateRandomString</a></li></ul></li><li><a href="module-lazuli-core_models_csrf-token.html">lazuli-core/models/csrf-token</a></li><li><a href="module-lazuli-core_models_currency.html">lazuli-core/models/currency</a></li><li><a href="module-lazuli-core_models_event-emitter.html">lazuli-core/models/event-emitter</a></li><li><a href="module-lazuli-core_models_express.html">lazuli-core/models/express</a></li><li><a href="module-lazuli-core_models_i18n.html">lazuli-core/models/i18n</a></li><li><a href="module-lazuli-core_models_locale.html">lazuli-core/models/locale</a></li><li><a href="module-lazuli-core_models_logger.html">lazuli-core/models/logger</a></li><li><a href="module-lazuli-core_models_translation.html">lazuli-core/models/translation</a></li><li><a href="module-lazuli-core_models_value-filter.html">lazuli-core/models/value-filter</a></li></ul><h3>Events</h3><ul><li><a href="module-lazuli-core_models_csrf-token.html#~event:%2522core.model.csrf-token.association%2522">"core.model.csrf-token.association"</a></li><li><a href="module-lazuli-core_models_currency.html#~event:%2522core.model.currency.association%2522">"core.model.currency.association"</a></li><li><a href="module-lazuli-core_models_i18n.html#~event:%2522core.model.i18n.association%2522">"core.model.i18n.association"</a></li><li><a href="module-lazuli-core_models_locale.html#~event:%2522core.model.locale.association%2522">"core.model.locale.association"</a></li><li><a href="module-lazuli-core_models_translation.html#~event:%2522core.model.translation.association%2522">"core.model.translation.association"</a></li></ul>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">express.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * Exports an instance of an {@link https://www.npmjs.com/package/express express}
+ * server that's globally accessible
+ * @module lazuli-core/models/express
+ */
+
+const express = require("express");
+const expressSession = require("express-session");
+const bodyParser = require("body-parser");
+const helmet = require("helmet");
+const compression = require("compression");
+const expressValidation = require("express-validation");
+
+const i18n = require("./i18n");
+
+const { HTTP_PORT, SESSION_SECRET } = require("lazuli-config");
+
+const sequelize = require("./sequelize");
+const valueFilter = require("./value-filter");
+const eventEmitter = require("./event-emitter");
+const logger = require("./logger");
+
+logger.log("info", "Starting express server");
+
+const expressServer = new express();
+
+const httpServer = expressServer.listen(HTTP_PORT, "0.0.0.0", () => {
+	logger.log(
+		"info",
+		"Server running on",
+		"http://" + httpServer.address().address + ":" + httpServer.address().port
+	);
+});
+
+httpServer.on("express.stop", httpServer.close);
+
+logger.log("info", "Enabling express helmet.dnsPrefetchControl()");
+expressServer.use(helmet.dnsPrefetchControl());
+
+logger.log("info", "Enabling helmet.ieNoOpen()");
+expressServer.use(helmet.ieNoOpen());
+
+logger.log("info", "Enabling helmet.noCache()");
+expressServer.use(helmet.noCache());
+
+logger.log("info", "Disabling 'X-Powered-By'");
+expressServer.disable("X-Powered-By");
+
+logger.log("info", "Setting 'Content-Security-Policy'");
+logger.log("info", "Setting 'Referrer-Policy' to 'no-referrer'");
+logger.log("info", "Setting 'X-Frame-Options' to 'DENY'");
+logger.log("info", "Setting 'X-XSS-Protection' to '1; report=/report/xss'");
+logger.log(
+	"info",
+	"Setting 'Strict-Transport-Security' to 'max-age=31536000; includeSubDomains'"
+);
+logger.log("info", "Setting 'X-Permitted-Cross-Domain-Policies' to 'none'");
+logger.log(
+	"info",
+	"Setting 'Expect-CT' to 'max-age=86400, enforce, report-uri=\"/report/ct\"'"
+);
+
+expressServer.use((request, response, next) => {
+	response.header(
+		"Content-Security-Policy",
+		[
+			"default-src 'none'",
+			"script-src 'self'",
+			"connect-src 'self'",
+			"img-src 'self'",
+			"style-src 'self'",
+			"font-src 'self'",
+			"report-uri /report/csp",
+			"form-action 'self'",
+			"frame-ancestors none", //X-Frame-Options
+			"upgrade-insecure-requests" //Upgrade http to https requests
+		].join(";")
+	);
+	response.header("Referrer-Policy", "no-referrer"); //apis don't need it
+
+	response.header("X-Frame-Options", "DENY");
+	response.header("X-XSS-Protection", "1; report=/report/xss");
+	response.header(
+		"Strict-Transport-Security",
+		"max-age=31536000; includeSubDomains"
+	);
+	response.header("X-Content-Type-Options", "nosniff");
+	response.header("X-Permitted-Cross-Domain-Policies", "none");
+
+	response.header(
+		"Expect-CT",
+		'max-age=86400, enforce, report-uri="/report/ct"'
+	);
+
+	next();
+});
+
+logger.log("info", "Enabling compression");
+expressServer.use(compression());
+
+logger.log("info", "Enabling parsing of json and urlencoded data");
+expressServer.use(bodyParser.json());
+expressServer.use(bodyParser.urlencoded({ extended: true }));
+
+logger.log("info", "Enabling sessions");
+expressServer.use(
+	expressSession({
+		secret: SESSION_SECRET,
+		saveUninitialized: true,
+		resave: true
+	})
+);
+
+logger.log("info", "Enabling i18n middleware");
+expressServer.use(i18n.init);
+
+//add validation helper
+
+expressServer.validate = schema => {
+	return expressValidation({
+		...schema,
+		options: {
+			//true ignores additional fields but doesn't throw an error
+			allowUnknownBody: true,
+
+			//but strictly checking parameters and query arguments.
+			//Unknown parameters or querys will throw an error
+			allowUnknownParams: false,
+			allowUnknownQuery: false,
+
+			allowUnknownHeaders: true,
+			allowUnknownCookies: true
+		}
+	});
+};
+
+expressServer.httpServer = httpServer;
+
+module.exports = expressServer;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sat Nov 18 2017 12:01:30 GMT+0100 (CET) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+</body>
+</html>

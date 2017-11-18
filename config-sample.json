@@ -12,12 +12,12 @@
 	"HTTP_PORT": 8100,
 	"SESSION_SECRET": "",
 
+	"CSRF_TOKEN_LIFETIME": 3600,
+
 	"HOST": "",
-	
+
 	"LOG_FILE": "logs/lazuli.log",
-	
+
 	"LOCALE_PATH": "./locales/",
-	"LOCALES": [
-		"en-us"
-	]
+	"LOCALES": ["en-us"]
 }

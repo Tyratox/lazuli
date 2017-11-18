@@ -1,3 +1,9 @@
+/**
+ * Exports an instance of {@link https://www.npmjs.com/package/i18n i18n}
+ * that's globally accessible
+ * @module lazuli-core/models/i18n
+ */
+
 const { LOCALE_PATH, LOCALES } = require("lazuli-config");
 
 /**
