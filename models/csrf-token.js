@@ -121,7 +121,7 @@ CsrfToken.generateToken = function(userId) {
  * @param  {string} token The token to hash
  * @return {string} The generated hash
  */
-OauthAccessToken.hashToken = function(token) {
+CsrfToken.hashToken = function(token) {
 	return generateHash(token, false, HASH_ALGORITHM).hash;
 };
 
@@ -137,7 +137,7 @@ OauthAccessToken.hashToken = function(token) {
  * @param {number} userId The user id to check for
  * @return {promise} Whether the token could be verified
  */
-OauthAccessToken.verifyToken = function(token, userId) {
+CsrfToken.verifyToken = function(token, userId) {
 	return this.findOne({
 		where: { hash: this.hashToken(token), UserId }
 	}).then(model => {
