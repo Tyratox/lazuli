@@ -4,7 +4,7 @@ const { HASH_ALGORITHM, SALT_LENGTH } = require("lazuli-config");
 
 /**
  * Crypto utilities
- * @module lazuli-authentication/utilities/crypto
+ * @module lazuli-core/utilities/crypto
  */
 
 /**
