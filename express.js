@@ -99,7 +99,12 @@ logger.log("info", "Enabling compression");
 expressServer.use(compression());
 
 logger.log("info", "Enabling parsing of json and urlencoded data");
-expressServer.use(bodyParser.json({ limit: MAX_HTTP_BODY_SIZE }));
+expressServer.use(
+	bodyParser.json({
+		type: ["json", "application/csp-report"],
+		limit: MAX_HTTP_BODY_SIZE
+	})
+);
 expressServer.use(
 	bodyParser.urlencoded({ extended: true, limit: MAX_HTTP_BODY_SIZE })
 );
