@@ -9,7 +9,6 @@ const expressSession = require("express-session");
 const bodyParser = require("body-parser");
 const helmet = require("helmet");
 const compression = require("compression");
-const expressValidation = require("express-validation");
 
 const i18n = require("./i18n");
 
@@ -113,26 +112,6 @@ expressServer.use(
 
 logger.log("info", "Enabling i18n middleware");
 expressServer.use(i18n.init);
-
-//add validation helper
-
-expressServer.validate = schema => {
-	return expressValidation({
-		...schema,
-		options: {
-			//true ignores additional fields but doesn't throw an error
-			allowUnknownBody: true,
-
-			//but strictly checking parameters and query arguments.
-			//Unknown parameters or querys will throw an error
-			allowUnknownParams: false,
-			allowUnknownQuery: false,
-
-			allowUnknownHeaders: true,
-			allowUnknownCookies: true
-		}
-	});
-};
 
 expressServer.httpServer = httpServer;
 

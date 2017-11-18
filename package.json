@@ -32,7 +32,6 @@
 		"docdash": "^0.4.0",
 		"express": "^4.15.4",
 		"express-session": "^1.15.5",
-		"express-validation": "^1.0.2",
 		"graphql": "^0.11.1",
 		"graphql-relay": "^0.5.2",
 		"graphql-sequelize": "^5.4.2",
