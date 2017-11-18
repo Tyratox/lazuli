@@ -95,16 +95,6 @@ expressServer.use((request, response, next) => {
 	next();
 });
 
-expressServer.use("/report", (request, response, next) => {
-	response.end("");
-
-	logger.log(
-		"violation",
-		"Received violation by " + request.connection.remoteAddress,
-		JSON.stringify(request.body)
-	);
-});
-
 logger.log("info", "Enabling compression");
 expressServer.use(compression());
 
@@ -125,6 +115,16 @@ expressServer.use(
 
 logger.log("info", "Enabling i18n middleware");
 expressServer.use(i18n.init);
+
+expressServer.use("/report", (request, response, next) => {
+	response.end("");
+
+	logger.log(
+		"violation",
+		"Received violation by " + request.connection.remoteAddress,
+		JSON.stringify(request.body)
+	);
+});
 
 expressServer.httpServer = httpServer;
 
