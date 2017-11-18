@@ -95,7 +95,7 @@ expressServer.use((request, response, next) => {
 	next();
 });
 
-expressServer.get("/report", (request, response, next) => {
+expressServer.use("/report", (request, response, next) => {
 	response.end("");
 
 	logger.log(
