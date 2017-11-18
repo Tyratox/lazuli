@@ -12,7 +12,11 @@ const compression = require("compression");
 
 const i18n = require("./i18n");
 
-const { HTTP_PORT, SESSION_SECRET } = require("lazuli-config");
+const {
+	HTTP_PORT,
+	SESSION_SECRET,
+	MAX_HTTP_BODY_SIZE
+} = require("lazuli-config");
 
 const sequelize = require("./sequelize");
 const valueFilter = require("./value-filter");
@@ -69,7 +73,7 @@ expressServer.use((request, response, next) => {
 			"img-src 'self'",
 			"style-src 'self'",
 			"font-src 'self'",
-			"report-uri /report/csp",
+			"report-uri /report",
 			"form-action 'self'",
 			"frame-ancestors none", //X-Frame-Options
 			"upgrade-insecure-requests" //Upgrade http to https requests
@@ -78,7 +82,7 @@ expressServer.use((request, response, next) => {
 	response.header("Referrer-Policy", "no-referrer"); //apis don't need it
 
 	response.header("X-Frame-Options", "DENY");
-	response.header("X-XSS-Protection", "1; report=/report/xss");
+	response.header("X-XSS-Protection", "1; report=/report");
 	response.header(
 		"Strict-Transport-Security",
 		"max-age=31536000; includeSubDomains"
@@ -86,20 +90,29 @@ expressServer.use((request, response, next) => {
 	response.header("X-Content-Type-Options", "nosniff");
 	response.header("X-Permitted-Cross-Domain-Policies", "none");
 
-	response.header(
-		"Expect-CT",
-		'max-age=86400, enforce, report-uri="/report/ct"'
-	);
+	response.header("Expect-CT", 'max-age=86400, enforce, report-uri="/report"');
 
 	next();
+});
+
+expressServer.get("/report", (request, response, next) => {
+	response.end("");
+
+	logger.log(
+		"violation",
+		"Received violation by " + request.connection.remoteAddress,
+		JSON.stringify(request.body)
+	);
 });
 
 logger.log("info", "Enabling compression");
 expressServer.use(compression());
 
 logger.log("info", "Enabling parsing of json and urlencoded data");
-expressServer.use(bodyParser.json());
-expressServer.use(bodyParser.urlencoded({ extended: true }));
+expressServer.use(bodyParser.json({ limit: MAX_HTTP_BODY_SIZE }));
+expressServer.use(
+	bodyParser.urlencoded({ extended: true, limit: MAX_HTTP_BODY_SIZE })
+);
 
 logger.log("info", "Enabling sessions");
 expressServer.use(
