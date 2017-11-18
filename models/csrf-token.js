@@ -139,7 +139,7 @@ CsrfToken.hashToken = function(token) {
  */
 CsrfToken.verifyToken = function(token, userId) {
 	return this.findOne({
-		where: { hash: this.hashToken(token), UserId }
+		where: { hash: this.hashToken(token), userId }
 	}).then(model => {
 		if (model) {
 			return model.destory().then(() => Promise.resolve());
