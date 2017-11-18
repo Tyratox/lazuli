@@ -52,7 +52,7 @@ expressServer.disable("X-Powered-By");
 logger.log("info", "Setting 'Content-Security-Policy'");
 logger.log("info", "Setting 'Referrer-Policy' to 'no-referrer'");
 logger.log("info", "Setting 'X-Frame-Options' to 'DENY'");
-logger.log("info", "Setting 'X-XSS-Protection' to '1; report=/report/xss'");
+logger.log("info", "Setting 'X-XSS-Protection' to '1; report=/report'");
 logger.log(
 	"info",
 	"Setting 'Strict-Transport-Security' to 'max-age=31536000; includeSubDomains'"
@@ -60,7 +60,7 @@ logger.log(
 logger.log("info", "Setting 'X-Permitted-Cross-Domain-Policies' to 'none'");
 logger.log(
 	"info",
-	"Setting 'Expect-CT' to 'max-age=86400, enforce, report-uri=\"/report/ct\"'"
+	"Setting 'Expect-CT' to 'max-age=86400, enforce, report-uri=\"/report\"'"
 );
 
 expressServer.use((request, response, next) => {
